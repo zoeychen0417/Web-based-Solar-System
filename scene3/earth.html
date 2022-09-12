@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">	
+
+<title></title>
+
+<style>
+	
+	canvas { width: 100%; height: 100%}
+
+	body{ 
+		border: none; 
+		overflow: hidden; 
+		margin: 0px; 
+		background-size: cover;
+		background-color: #000000;
+	}
+	#frame1, #frame2,#frame3,#frame4,#frame5,#frame6,
+	#frame7,#frame8,#frame9,#frame10{
+        width: 18%;
+        height: 40%;
+		padding-left: 30px;
+   	 	padding-top: 30px;
+   		padding-right: 30px;
+    	padding-bottom: 40px;
+        position: absolute;
+        top: 300px;
+        left: 2%;
+        background: url("textures/liu1.png");
+        background-size: 100% 100%;
+        font-size: 14px;
+		font-family: Arial, Helvetica, sans-serif;
+        color: #FFFFFF;
+        display: none;
+        word-wrap:break-word
+    }
+     .close1{
+        position: absolute;
+        right: 10px;
+        top: 30px;
+        color: #3bdbf5;
+        cursor: pointer;
+    }
+	#smap{
+        margin-top: 30px;
+		width: 20%;
+	}  
+	.nav{
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 3%;
+	left: 83%;
+	gap: 10px;
+	}
+	.nav button{
+	width: 180px;
+	height: 60px;
+	background: transparent;
+	border: none;
+	color: white;
+	background-image: url(textures/button_03.png);
+	background-size: 100% 100%; 
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	line-height: 10px;
+	letter-spacing:2px; 
+	opacity: 0.9; 
+	transition: transform 0.5s;
+	cursor:pointer;
+	}
+	.nav button:hover{
+        transform: scale(0.8);
+    }    		
+
+.container{
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle farthest-corner at center, #3C4B57 0%, #1C262B 100%);
+  z-index: 1;
+}
+.loader {
+  position: absolute;
+  top: calc(50% - 32px);
+  left: calc(50% - 32px);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  perspective: 800px;
+}
+
+.inner {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;  
+}
+
+.inner.one {
+  left: 0%;
+  top: 0%;
+  animation: rotate-one 1s linear infinite;
+  border-bottom: 3px solid #EFEFFA;
+}
+
+.inner.two {
+  right: 0%;
+  top: 0%;
+  animation: rotate-two 1s linear infinite;
+  border-right: 3px solid #EFEFFA;
+}
+
+.inner.three {
+  right: 0%;
+  bottom: 0%;
+  animation: rotate-three 1s linear infinite;
+  border-top: 3px solid #EFEFFA;
+}
+
+@keyframes rotate-one {
+  0% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-two {
+  0% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-three {
+  0% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
+}
+</style>
+
+</head>
+<div class="container">
+	<div class="loader">
+		<div class="inner one"></div>
+		<div class="inner two"></div>
+		<div class="inner three"></div>
+	</div>
+</div>
+
+<body>
+    <div class="nav">
+		<button onclick="callme(0)">Scene 1</button>
+		<button onclick="callme(1)">Scene 2</button>
+		<button onclick="callme(2)">Scene 3</button>
+	 </div>
+
+<div id="frame1">
+    <div class="der1">
+    	<i><b>The Oriental Pearl Tower：</b></i></br>
+		Type: Communication, hotel, observation, restaurant</br>
+		Location: Shanghai</br>
+		Height : 467.9m</br><br>
+		<i><b>Country information: </b></i></br>
+		Country: China</br>
+		Continent: Asia </br>
+		Capital: Beijing</br>
+		Population Density: 145/km2</br>
+		Area: 9,596,961 km2</br>
+		Time zone: UTC+8 </br>
+		Climate: dry seasons and wet monsoons</br>
+		Languages: Chinese
+    </div>
+</div>
+
+<div id="frame2">
+    <div class="der1">
+    	<i><b>Terra-Cotta Warriors:</b></i></br>
+		Collection location: Emperor Qin Shihuang Mausoleum Museum</br>
+		Age: Qin Dynasty</br>
+		Category: Pottery Figurines</br>
+		Land release point: Lintong District, Xi'an City, Shaanxi Province</br></br>
+		<i><b>Country information: </b></i></br>
+		Country: China</br>
+		Continent: Asia </br>
+		Capital: Beijing</br>
+		Population Density: 145/km2</br>
+		Area: 9,596,961 km2</br>
+		Time zone: UTC+8 </br>
+		Climate: dry seasons and wet monsoons</br>
+		Languages: Chinese</br>
+    </div>
+</div>
+
+<div id="frame3">
+    <div class="der1">
+		<i><b>Statue of Liberty: </b></i></br>
+		Type: Cultural</br>
+		Location: Liberty Island Manhattan, New York City, New York,U.S.</br>
+		Height: 46 meters</br>
+		Restored: 1938, 1984–1986, 2011–2012</br>
+		Sculptor: Frédéric Auguste Bartholdi</br></br>
+		<i><b>Country information: </b></i></br>
+		Country: U.S.</br>
+		Continent: America</br>
+		Capital: Washington, D.C.</br>
+		Population Density: 33.6/km2</br>
+		Area: 9,833,520 km2</br>
+		Time zone: 	UTC−4 to −12, +10, +11</br>
+		Currency: United States dollar</br>
+		Languages: English </br>
+    </div>
+</div>
+
+<div id="frame4">
+    <div class="der1">
+		<i><b>Taj Mahal: </b></i></br>
+		Location: Agra, Uttar Pradesh, India</br>
+		Area: 17 hectares</br>
+		Height : 73 m</br>
+		Architectural style(s): Mughal architecture</br>
+		Visitors: 7–8 million </br></br>
+		<i><b>Country information: </b></i></br>
+		Country: India</br>
+		Continent: Asia </br>
+		Capital: New Delhi</br>
+		Population Density: 412.5/km2</br>
+		Area: 3,287,263km2</br>
+		Time zone: UTC+05:30 </br>
+		Climate:  tropical monsoon climate</br>
+		Languages: Hindi, English</br>
+    </div>
+</div>
+
+
+<div id="frame5">
+    <div class="der1">
+		<i><b>Eiffel Tower: </b></i></br>
+		Type: Observation tower Broadcasting tower</br>
+		Location: 7th arrondissement, Paris, France</br>
+		Construction started: 28 January 1887</br>
+		Completed: 15 March 1889</br>
+		Architectural: 300 m</br>
+		Tip: 324 m </br>
+		Top floor: 276 m </br></br>
+		<i><b>Country information: </b></i></br>
+		Country: France </br>
+		Continent: Europe</br>
+		Capital and largest city: Paris</br>
+		Population Density: 116/km2</br>
+		Area: 640,679 km2</br>
+		Time zone: 	UTC+1</br>
+		Languages: French</br>
+		Famous scenery: Louvre, Notre Dame de Paris</br>
+    </div>
+</div>
+
+
+<div id="frame6">
+    <div class="der1">
+		<i><b>Country information: </b></i></br>
+		Country: New Zealand</br>
+		Continent:  Oceania</br>
+		Capital: Wellington</br>
+		Population Density: 19.0/km2</br>
+		Area: 268,021 km2</br>
+		Time zone: UTC+12 </br>
+		Climate: Temperate maritime climate</br>
+		Languages: English, Māori, NZ Sign Language</br>
+		Famous fruit: Kiwi fruit</br>
+    </div>
+</div>
+
+
+<div id="frame7">
+    <div class="der1">
+		<i><b>Country information: </b></i></br>
+		Country: Australia</br>
+		Continent:  Oceania</br>
+		Capital: Canberra</br>
+		Largest city: Sydney</br>
+		Population Density: 3.4/km2</br>
+		Area: 7,692,024 km2</br>
+		Time zone: UTC+8; +9.5; +10</br>
+		Climate: Temperate maritime climate</br>
+		Languages: English</br>
+		Famous animal: Kangaroo</br>
+    </div>
+</div>
+
+
+<div id="frame8">
+    <div class="der1">
+		<i><b>London Bridge: </b></i></br>
+		Locale: Central London</br>
+		Design: Prestressed concrete box girder bridge</br>
+		Total length: 269 m</br>
+		Width: 32 m </br>
+		Longest span: 104 m</br>
+		Clearance below	:8.9 m</br>
+		Opened: 17 March 1973; 48 years ago</br></br>
+		<i><b>Country information: </b></i></br>
+		Country: England</br>
+		Continent: Europe</br>
+		Capital: London</br>
+		Population Density: 432/km2</br>
+		Area: 130,279 km2</br>
+		Time zone: UTC+1</br>
+		Currency: Pound sterling</br>
+		Languages: English</br>
+    </div>
+</div>
+
+
+<div id="frame9">
+    <div class="der1">
+		<i><b>Pyramid :</b></i></br>
+		Honor: one of the seven wonders of the world</br>
+		Function: Pyramid is the burial mound of ancient Egyptian kings</br>
+		Large and small: 52,000 square meters</br>
+		Quantity: about 96 seats</br>
+		Building genus: stacked accumulation type</br></br>
+		<i><b>Country information: </b></i></br>
+		Country: Egypt</br>
+		Continent: Asia , Africa</br>
+		Capital: Cairo</br>
+		Population Density: 100/km2</br>
+		Area: 1,010,408 km2</br>
+		Time zone: UTC+2</br>
+		Climate: dry and etesian climate </br>
+		Languages: Arabic</br>
+    </div>
+</div>
+
+
+<div id="frame10">
+    <div class="der1">
+		<i><b>Colosseum: </b></i></br>
+		Location: Regio III Isis et Serapis, Rome, Italy</br>
+		Built in AD 70–80; 1941 years ago</br>
+		Built by/for: Vespasian, Titus</br>
+		Type of structure: Amphitheatre</br></br>
+		<i><b>Country information: </b></i></br>
+		Country: Italy</br>
+		Continent: Europe</br>
+		Capital: Rome</br>
+		Population Density: 521.4/km2</br>
+		Area: 301,340 km2</br>
+		Time zone: 	UTC+1</br>
+		Currency: Euro</br>
+		Languages: Italian</br>
+		Climate: ranges from humid subtropical to humid continental and oceanic.
+    </div>
+</div>
+
+
+<!--3d models-->
+<div id="iframeid" style="width: 300px; height: 200px; position: absolute;left: 2%; display: none;">
+    <div class="close1" onclick="call1()">close</div>
+	<div id="smap" style="width: 100%;height: 100%;"></div>
+	<div id="zi"  style="text-align: center;color: white;font-size: 24px;margin-left: -25px;font-family: Arial, Helvetica, sans-serif;"></div>
+</div>
+
+<!--packages-->
+<script src="js/three.min.js"></script>
+<script src="js/OrbitControls.js"></script>
+<script src="js/RGBELoader.js"></script>
+<script src="js/DRACOLoader.js"></script>
+<script src="js/GLTFLoader.js"></script>
+<script>
+		function callme(num){
+		if(num == 0){
+			window.location.href="../scene1/main.html";
+		}else if(num == 1){
+			window.location.href="../scene2/eclipse.html";
+		}else if(num == 2){
+			window.location.href="../scene3/earth.html";
+		}
+	}
+
+	let preloader=document.querySelector(".container");
+            let navigation=document.querySelector(".nav");
+            window.addEventListener("load",function(){
+                preloader.style.display='none';
+                navigation.style.visibility='visible';
+            })
+           
+	function call(){
+		document.getElementById("frame1").style.display = 'none';
+		document.getElementById("frame2").style.display = 'none';
+		document.getElementById("frame3").style.display = 'none';
+		document.getElementById("frame4").style.display = 'none';
+		document.getElementById("frame5").style.display = 'none';
+		document.getElementById("frame6").style.display = 'none';
+		document.getElementById("frame7").style.display = 'none';
+		document.getElementById("frame8").style.display = 'none';
+		document.getElementById("frame9").style.display = 'none';
+		document.getElementById("frame10").style.display = 'none';
+	}
+
+
+	function call1(){
+		spritel01.visible = false;
+		swtrue = true; 
+		call();
+		document.getElementById('iframeid').style.display = 'none'
+		controls1.enabled = true;
+		controls2.enabled = false;
+    	camera2.position.set( 0, 0, 800 );
+	}
+	
+	
+//container	
+var	container = document.createElement( 'div' );
+	document.body.appendChild( container );
+//camera	
+var	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 100000 );
+	camera.position.set(0,80,90);		
+//create scene	
+var	scene = new THREE.Scene();
+//renderer
+var	renderer = new THREE.WebGLRenderer( { antialias: true, alpha:true } );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.setPixelRatio( window.devicePixelRatio );      
+	container.appendChild( renderer.domElement );
+//lighting
+var ambientLight;
+ambientLight = new THREE.AmbientLight(0xffffff,1); 
+scene.add(ambientLight); 		
+var pointLight = new THREE.PointLight(0xFFFFFF, 0.1);	
+    scene.add(pointLight);
+
+//controller
+var controls1;
+    controls1 = new THREE.OrbitControls(camera, container);
+
+var  swtrue = true ;
+ 
+//background of scene
+var mains = [];
+var mains1 = [];
+
+function skybox(scene){
+                let loader = new THREE.CubeTextureLoader();
+                let texture = loader.load([
+                    'skybox1/right.png',//right.
+                    'skybox1/left.png', //left
+                    'skybox1/top.png', //top.
+                    'skybox1/bottom.png', //bottom
+                    'skybox1/front.png', //front.
+                    'skybox1/back.png'  //back
+               ])
+               scene.background=texture; 
+            }
+
+var basic = new THREE.Mesh(new THREE.PlaneBufferGeometry(0.000001, 0.000001), new THREE.MeshBasicMaterial({color: 0xffffff}));
+	basic.position.set(0,0,0);        
+    scene.add(basic);
+
+//create earth
+var geometry = new THREE.SphereGeometry(30, 60, 30);
+var	material = new THREE.MeshPhongMaterial({
+	    color: 0xffffff
+	});
+	material.specularMap = new THREE.TextureLoader().load("textures/earth_specular_2048.jpg");
+	material.map = new THREE.TextureLoader().load("textures/earth_atmos_2048.jpg");
+	material.normalMap = new THREE.TextureLoader().load("textures/earth_normal_2048.jpg");
+	material.bumpMap = new THREE.TextureLoader().load("textures/earthbump1k.jpg");
+	material.needsUpdate = true;
+	earth = new THREE.Mesh(geometry, material);
+	earth.position.set(0,0,0);
+	basic.add(earth);
+    mains1.push(earth);
+
+var spriteMaterial00 = new THREE.SpriteMaterial({
+		map: new THREE.TextureLoader().load("textures/baise.png"),
+		transparent: true,
+});
+
+var spriteMaterial01 = new THREE.SpriteMaterial({
+		map: new THREE.TextureLoader().load("textures/111.png"),
+		transparent: true,
+		depthTest:false
+});
+var spritel01 = new THREE.Sprite(spriteMaterial01);
+    spritel01.scale.set( 4,4,10 );                                
+    spritel01.position.set(-14.037, 16.8, -23.131 );        
+    basic.add( spritel01 ); 
+    spritel01.visible = false;
+    spritel01.renderOrder = 4;
+
+///////////////////
+// Circle points 
+///////////////////
+
+//Shanghai
+var spritel00 = new THREE.Sprite(spriteMaterial00);
+    spritel00.scale.set( 2.5,2.5,10 );                                
+    spritel00.position.set(-14.037, 15.439, -23.131 );        
+    basic.add( spritel00 ); 
+    mains.push(spritel00);
+
+//Xi'an
+var spritel00 = new THREE.Sprite(spriteMaterial00);
+    spritel00.scale.set( 2.5,2.5,10 );                                
+    spritel00.position.set(-8.062, 16.256, -24.824);        
+    basic.add( spritel00 ); 
+    mains.push(spritel00);
+
+//US
+var spritel00 = new THREE.Sprite(spriteMaterial00);
+    spritel00.scale.set( 2.5,2.5,10 );                                
+    spritel00.position.set(6.115, 19.708, 22.717);        
+    basic.add( spritel00 ); 
+    mains.push(spritel00);
+
+//India
+var spritel00 = new THREE.Sprite(spriteMaterial00);
+    spritel00.scale.set( 2.5,2.5,10 );                                
+    spritel00.position.set(6.092, 13.851, -26.833);        
+    basic.add( spritel00 ); 
+    mains.push(spritel00);
+
+//France
+var spritel00 = new THREE.Sprite(spriteMaterial00);
+    spritel00.scale.set( 2.5,2.5,10 );                                
+    spritel00.position.set(20.555, 22.686, -0.658 );        
+    basic.add( spritel00 ); 
+    mains.push(spritel00);
+
+
+//New Zealand
+var spritel00 = new THREE.Sprite(spriteMaterial00);
+    spritel00.scale.set( 2.5,2.5,10 );                                
+    spritel00.position.set( -23.135, -19.916, -2.847);        
+    basic.add( spritel00 ); 
+    mains.push(spritel00);
+
+
+//Austrilia
+var spritel00 = new THREE.Sprite(spriteMaterial00);
+    spritel00.scale.set( 2.5,2.5,10 );                                
+    spritel00.position.set(-18.236, -14.328, -19.940);        
+    basic.add( spritel00 ); 
+    mains.push(spritel00);
+
+
+//England
+var spritel00 = new THREE.Sprite(spriteMaterial00);
+    spritel00.scale.set( 2.5,2.5,10 );                                
+    spritel00.position.set( 19.110, 24.870, -0.3354 );        
+    basic.add( spritel00 ); 
+    mains.push(spritel00);
+
+
+//Egypt
+var spritel00 = new THREE.Sprite(spriteMaterial00);
+    spritel00.scale.set( 2.5,2.5,10 );                                
+    spritel00.position.set(23.097, 15.272, -13.287);        
+    basic.add( spritel00 ); 
+    mains.push(spritel00);
+
+
+//Italy
+var spritel00 = new THREE.Sprite(spriteMaterial00);
+    spritel00.scale.set( 2.5,2.5,10 );                                
+    spritel00.position.set(22.834, 21.566, -5.121);        
+    basic.add( spritel00 ); 
+    mains.push( spritel00 );
+
+  
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+let onpointerup = 0;
+let ondblclick;
+
+document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+function onDocumentMouseMove(event){
+	mouse.x = ( event.clientX / renderer.domElement.width * window.devicePixelRatio ) * 2 - 1;
+    mouse.y = - ( event.clientY  / renderer.domElement.height * window.devicePixelRatio ) * 2 + 1;
+	raycaster.setFromCamera( mouse, camera );
+	
+	var intersectsTest = raycaster.intersectObjects( mains ); 
+	if ( intersectsTest.length > 0 ) {
+		document.body.style.cursor = 'pointer';
+	}else{
+		document.body.style.cursor = 'auto';    
+	}
+	
+}
+//Click events
+function onDocumentMouseUp(event) { 
+    event.preventDefault();
+	mouse.x = ( event.clientX / renderer.domElement.width * window.devicePixelRatio ) * 2 - 1;
+	mouse.y = - ( event.clientY / renderer.domElement.height * window.devicePixelRatio ) * 2 + 1;
+	raycaster.setFromCamera( mouse, camera );
+	 
+	var intersectsTest = raycaster.intersectObjects( mains ); 
+	var intersectsTest1 = raycaster.intersectObjects( mains1 ); 
+	if ( intersectsTest.length > 0 ) { 
+    	setTimeout(function(){
+			document.getElementById('iframeid').style.display = 'block'
+		    renderer2.setSize(document.getElementById('smap').offsetWidth, document.getElementById('smap').offsetHeight);
+		    camera2.aspect = document.getElementById('smap').offsetWidth / document.getElementById('smap').offsetHeight;
+		    camera2.updateProjectionMatrix();
+			controls1.enabled = false;
+			controls2.enabled = true;
+			swtrue = false; 
+			for (var i = 0; i < thismodel.length; i++) {
+				thismodel[i].visible = false;
+			}
+			call();
+	    	spritel01.visible = true;
+			if( intersectsTest[0].object == mains[0]  ){
+				thismodel[0].visible = true;
+				document.getElementById('zi').innerHTML = 'The Oriental Pearl';
+				document.getElementById("frame1").style.display = 'block';
+				
+				spritel01.position.x = mains[0].position.x;
+				spritel01.position.y = mains[0].position.y + 1.4;
+				spritel01.position.z = mains[0].position.z;
+				
+			}else if( intersectsTest[0].object == mains[1]  ){
+				thismodel[1].visible = true;
+				document.getElementById('zi').innerHTML = 'Terra Cotta Warriors'
+				document.getElementById("frame2").style.display = 'block';
+	
+				spritel01.position.x = mains[1].position.x;
+				spritel01.position.y = mains[1].position.y + 1.4;
+				spritel01.position.z = mains[1].position.z;
+	
+			}else if( intersectsTest[0].object == mains[2]  ){
+				thismodel[2].visible = true;
+				document.getElementById('zi').innerHTML = 'Statue of Liberty'
+				document.getElementById("frame3").style.display = 'block';
+	
+				spritel01.position.x = mains[2].position.x;
+				spritel01.position.y = mains[2].position.y + 1.4;
+				spritel01.position.z = mains[2].position.z;
+	
+			}else if( intersectsTest[0].object == mains[3]  ){
+				thismodel[3].visible = true;
+				document.getElementById('zi').innerHTML = 'Taj Mahal'
+				document.getElementById("frame4").style.display = 'block';
+	
+				spritel01.position.x = mains[3].position.x;
+				spritel01.position.y = mains[3].position.y + 1.4;
+				spritel01.position.z = mains[3].position.z;
+	
+			}else if( intersectsTest[0].object == mains[4]  ){
+				thismodel[4].visible = true;
+				document.getElementById('zi').innerHTML = 'Eiffel Tower'
+				document.getElementById("frame5").style.display = 'block';
+	
+				spritel01.position.x = mains[4].position.x;
+				spritel01.position.y = mains[4].position.y + 1.4;
+				spritel01.position.z = mains[4].position.z;
+	
+			}else if( intersectsTest[0].object == mains[5]  ){
+				thismodel[5].visible = true;
+				document.getElementById('zi').innerHTML = 'Kiwifruit'
+				document.getElementById("frame6").style.display = 'block';
+	
+				spritel01.position.x = mains[5].position.x;
+				spritel01.position.y = mains[5].position.y + 1.4;
+				spritel01.position.z = mains[5].position.z;
+	
+			}else if( intersectsTest[0].object == mains[6]  ){
+				thismodel[6].visible = true;
+				document.getElementById('zi').innerHTML = 'Kangaroo'
+				document.getElementById("frame7").style.display = 'block';
+	
+				spritel01.position.x = mains[6].position.x;
+				spritel01.position.y = mains[6].position.y + 1.4;
+				spritel01.position.z = mains[6].position.z;
+	
+			}else if( intersectsTest[0].object == mains[7]  ){
+				thismodel[7].visible = true;
+				document.getElementById('zi').innerHTML = 'London Bridge'
+				document.getElementById("frame8").style.display = 'block';
+	
+				spritel01.position.x = mains[7].position.x;
+				spritel01.position.y = mains[7].position.y + 1.4;
+				spritel01.position.z = mains[7].position.z;
+	
+			}else if( intersectsTest[0].object == mains[8]  ){
+				thismodel[8].visible = true;
+				document.getElementById('zi').innerHTML = 'Pyramid'
+				document.getElementById("frame9").style.display = 'block';
+	
+				spritel01.position.x = mains[8].position.x;
+				spritel01.position.y = mains[8].position.y + 1.4;
+				spritel01.position.z = mains[8].position.z;
+	
+			}else if( intersectsTest[0].object == mains[9]  ){
+				thismodel[9].visible = true;
+				document.getElementById('zi').innerHTML = 'Arena'
+				document.getElementById("frame10").style.display = 'block';
+				spritel01.position.x = mains[9].position.x;
+				spritel01.position.y = mains[9].position.y + 1.4;
+				spritel01.position.z = mains[9].position.z;
+			}
+    	},200)
+    }
+
+	if (event.button == 2 && onpointerup == 1) {
+		spritel01.visible = false;
+		swtrue = true; 
+		call();
+		document.getElementById('iframeid').style.display = 'none'
+		controls1.enabled = true;
+		controls2.enabled = false;
+    	camera2.position.set( 0, 0, 800 );
+	}
+
+	if (onpointerup == 1) {
+		clearTimeout(ondblclick);
+		onpointerup = 0;
+	} else {
+		ondblclick = setTimeout(function () {
+			onpointerup = 0
+		}, 500);
+		onpointerup = 1
+	}	
+
+	if ( event.button === 0 ) {
+		if ( intersectsTest1.length > 0 ) { 
+		    console.log("当前：" + toString( intersectsTest1[0].point ) );       
+			function toString(v) { return "[ " + v.x.toFixed(3) + ", " + v.y.toFixed(3) + ", " + v.z.toFixed(3) + " ]"; }
+	    }
+	}
+}
+  
+
+var	camera2 = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight , 1, 10000 );
+    camera2.position.set( 0, 0, 800 );
+    
+var scene2 = new THREE.Scene();
+
+var renderer2 = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
+	renderer2.setPixelRatio( window.devicePixelRatio );
+    document.getElementById('smap').appendChild(renderer2.domElement);
+	renderer2.inputEncoding=true;
+	renderer2.outputEncoding = THREE.sRGBEncoding;
+	
+var controls2 = new THREE.OrbitControls( camera2 );
+	controls2.enabled = false;
+	
+var hemiLight2;
+	hemiLight2 = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.5);
+	hemiLight2.position.set(0, 500, 0);
+	scene2.add(hemiLight2);
+
+window.addEventListener( 'resize', onWindowResize, false );
+function onWindowResize( event ) {
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer2.setSize(document.getElementById('smap').offsetWidth, document.getElementById('smap').offsetHeight);
+    camera2.aspect = document.getElementById('smap').offsetWidth / document.getElementById('smap').offsetHeight;
+    camera2.updateProjectionMatrix();
+}
+
+
+var	textureCube = new THREE.RGBELoader().setDataType( THREE.UnsignedByteType );
+    textureCube.load( 'textures/015.hdr', function ( texture ) {	
+		var pmremGenerator = new THREE.PMREMGenerator( renderer2 );
+			pmremGenerator.compileEquirectangularShader();
+		var cubeRenderTarget = pmremGenerator.fromEquirectangular( texture );
+		textureCube = cubeRenderTarget.texture;
+		texture.dispose();			
+	});		
+
+var thismodel = [];
+
+//add models
+var gltfLoader = new THREE.GLTFLoader();
+var dracoLoader = new THREE.DRACOLoader();
+	dracoLoader.setDecoderPath( 'js/gltf/' );
+    gltfLoader.setDRACOLoader( dracoLoader );
+    
+	gltfLoader.load( "models/a10-v1.glb", function ( gltf ) {
+		thismodel[0] = gltf.scene;
+		thismodel[0].traverse( function ( child ) {
+			if ( child.isMesh ) {
+                child.material.envMap = textureCube;
+			}
+		});   
+		 thismodel[0].scale.set(1000,1000,1000)
+		scene2.add( thismodel[0] );	
+			thismodel[0].visible = false;
+	});  
+
+	gltfLoader.load( "models/a5-v1.glb", function ( gltf ) {
+		thismodel[1] = gltf.scene;
+		thismodel[1].traverse( function ( child ) {
+			if ( child.isMesh ) {
+                child.material.envMap = textureCube;
+			}
+		});   
+		 thismodel[1].scale.set(1000,1000,1000)
+		scene2.add( thismodel[1] );	
+			thismodel[1].visible = false;
+	});  
+
+	gltfLoader.load( "models/a9-v1.glb", function ( gltf ) {
+		thismodel[2] = gltf.scene;
+		thismodel[2].traverse( function ( child ) {
+			if ( child.isMesh ) {
+                child.material.envMap = textureCube;
+			}
+		});   
+		 thismodel[2].scale.set(1000,1000,1000)
+		scene2.add( thismodel[2] );	
+			thismodel[2].visible = false;
+	});  
+
+	gltfLoader.load( "models/a1-v1.glb", function ( gltf ) {
+		thismodel[3] = gltf.scene;
+		thismodel[3].traverse( function ( child ) {
+			if ( child.isMesh ) {
+                child.material.envMap = textureCube;
+			}
+		});   
+		 thismodel[3].scale.set(1000,1000,1000)
+		scene2.add( thismodel[3] );	
+			thismodel[3].visible = false;
+	});  
+
+	gltfLoader.load( "models/a3-v1.glb", function ( gltf ) {
+		thismodel[4] = gltf.scene;
+		thismodel[4].traverse( function ( child ) {
+			if ( child.isMesh ) {
+                child.material.envMap = textureCube;
+			}
+		});   
+		 thismodel[4].scale.set(1000,1000,1000)
+		scene2.add( thismodel[4] );	
+			thismodel[4].visible = false;
+	});  
+
+	gltfLoader.load( "models/a4-v1.glb", function ( gltf ) {
+		thismodel[5] = gltf.scene;
+		thismodel[5].traverse( function ( child ) {
+			if ( child.isMesh ) {
+                child.material.envMap = textureCube;
+			}
+		});   
+		 thismodel[5].scale.set(1000,1000,1000)
+		scene2.add( thismodel[5] );	
+			thismodel[5].visible = false;
+	});  
+
+	gltfLoader.load( "models/a6-v1.glb", function ( gltf ) {
+		thismodel[6] = gltf.scene;
+		thismodel[6].traverse( function ( child ) {
+			if ( child.isMesh ) {
+                child.material.envMap = textureCube;
+			}
+		});   
+		 thismodel[6].scale.set(1000,1000,1000)
+		scene2.add( thismodel[6] );	
+			thismodel[6].visible = false;
+	});  
+
+	gltfLoader.load( "models/a8-v1.glb", function ( gltf ) {
+		thismodel[7] = gltf.scene;
+		thismodel[7].traverse( function ( child ) {
+			if ( child.isMesh ) {
+                child.material.envMap = textureCube;
+			}
+		});   
+		 thismodel[7].rotation.set(0,1.5,0);
+		 thismodel[7].scale.set(1000,1000,1000);
+		scene2.add( thismodel[7] );	
+		thismodel[7].visible = false;
+	});  
+
+	gltfLoader.load( "models/a2-v1.glb", function ( gltf ) {
+		thismodel[8] = gltf.scene;
+		thismodel[8].traverse( function ( child ) {
+			if ( child.isMesh ) {
+                child.material.envMap = textureCube;
+			}
+		});   
+		 thismodel[8].scale.set(1000,1000,1000)
+		scene2.add( thismodel[8] );	
+			thismodel[8].visible = false;
+	});  
+
+	gltfLoader.load( "models/a7-v1.glb", function ( gltf ) {
+		thismodel[9] = gltf.scene;
+		thismodel[9].traverse( function ( child ) {
+			if ( child.isMesh ) {
+                child.material.envMap = textureCube;
+			}
+		});   
+		 thismodel[9].scale.set(1000,1000,1000)
+		scene2.add( thismodel[9] );	
+			thismodel[9].visible = false;
+	});  
+
+	    ////////////////////////
+        // Galaxy
+        ////////////////////////
+		let star, starGeo, starMat;
+         let stars = [];
+         function addStars(){
+            for(let i=-5000; i<5000; i+=50){
+                starGeo = new THREE.SphereGeometry(0.6, 32, 32);
+                starMat = new THREE.MeshBasicMaterial({
+                    color: 0xffffff,
+                });
+             star = new THREE.Mesh(starGeo,starMat); 
+             star.position.x=Math.random()*2000-1000;
+             star.position.y=Math.random()*2000-1000;
+             star.position.z=i;
+             star.scale.x=star.scale.y=2;
+          //  scene.add(star);
+             scene.add(star);
+             stars.push(star);
+            }
+        }
+
+        function animateStars(){
+            for(let i=0; i<stars.length; i++){
+                let single = stars[i];
+                single.position.z += i/10;
+                if(single.position.z>1000){
+                single.position.z-=2000;
+                }
+            }
+        }
+
+
+    renderer2.setSize(document.getElementById('smap').offsetWidth, document.getElementById('smap').offsetHeight);
+    camera2.aspect = document.getElementById('smap').offsetWidth / document.getElementById('smap').offsetHeight;
+    camera2.updateProjectionMatrix();
+
+
+render(); 
+skybox(scene);
+addStars() 
+var time1= 0;
+
+function render() {
+	requestAnimationFrame( render );
+	animateStars();
+    pointLight.position.copy ( camera.position );  
+    pointLight.scale.copy ( camera.scale ); 	
+	if(basic){
+		if( swtrue == true ){
+			basic.rotation.y += 0.001;
+		}
+
+	}
+	controls1.update();          
+    controls2.update();
+	renderer.clear();	
+    renderer2.render(scene2, camera2);
+    renderer.render( scene, camera );
+}
+
+</script>
+
+</body>
+</html>

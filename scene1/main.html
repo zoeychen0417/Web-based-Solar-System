@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <script src="./package/three.js"></script>
+        <script src="./package/OrbitControls.js"></script>
+        <script src="./package/threex.domevents.js"></script>
+        <script src="./package/TTFLoader.js"></script>
+        <script src="./package/opentype.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/gsap.min.js"></script>
+        <script src="https://threejs.org/examples/js/libs/dat.gui.min.js"></script>
+        <script src="function.js"></script>
+        <script src="click-revolution.js"></script>
+        <script src="./package/EffectComposer.js"></script>
+        <script src="./package/RenderPass.js"></script>
+        <script src="./package/UnrealBloomPass.js"></script>
+        <script src="./package/ShaderPass.js"></script>
+        <script src="./package/Pass.js"></script>
+        <script src="./package/BloomPass.js"></script>
+        <script src="./package/LuminosityHighPassShader.js"></script>
+        <script src="./package/CopyShader.js"></script>
+        <script src="./package/FXAAShader.js"></script>
+
+
+        <div class="container">
+            <div class="loader">
+                <div class="inner one"></div>
+                <div class="inner two"></div>
+                <div class="inner three"></div>
+            </div>
+        </div>
+
+        <div class="info">  </div>
+    <div class="nav">
+       <button onclick="callme(0)">Scene 1</button>
+       <button onclick="callme(1)">Scene 2</button>
+       <button onclick="callme(2)">Scene 3</button>
+    </div>
+
+        <script>
+        	
+        	
+        function callme(num){
+		    if(num == 0){
+			    window.location.href="../scene1/main.html";
+		    }else if(num == 1){
+			    window.location.href="../scene2/eclipse.html";
+		    }else if(num == 2){
+			    window.location.href="../scene3/earth.html";
+		    }
+	    }
+        	
+            //preloader
+            let preloader=document.querySelector(".container");
+            let navigation=document.querySelector(".nav");
+            window.addEventListener("load",function(){
+                preloader.style.display='none';
+                navigation.style.visibility='visible';
+            })
+           
+            //scene
+            let scene, camera, renderer, control;
+            let universe = new THREE.Group();
+            let origin = new THREE.Vector3(0,0,0);
+            let mouse = new THREE.Vector2();
+            document.addEventListener('mousemove', mouseMove, false);
+            let raycaster;
+            raycaster = new THREE.Raycaster();
+            let currentObject; 
+            let bloomComposer; 
+            
+            //window resize
+            window.addEventListener( 'resize', onWindowResize, false );
+            function onWindowResize( event ) {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize( window.innerWidth, window.innerHeight);
+                bloomComposer.setSize( window.innerWidth, window.innerHeight);
+            }
+
+            function init(){
+                scene = new THREE.Scene();
+                // scene.background = new THREE.Color( 0x00000011 );
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,1,10000);
+                camera.position.set(0,300,900);
+                camera.lookAt(origin);
+
+                renderer = new THREE.WebGLRenderer({atialias:true});
+                renderer.setSize(window.innerWidth,window.innerHeight);
+                renderer.setClearColor(0x000000);
+                document.body.appendChild(renderer.domElement);
+
+                //light
+                ambientLight = new THREE.AmbientLight(0xffffff,0.8);
+                scene.add(ambientLight);
+                
+                //mouse control
+                control = new THREE.OrbitControls(camera, renderer.domElement);
+                control.zoomSpeed = 2.0;
+	            control.panSpeed = 0.5;
+
+                let renderScene = new THREE.RenderPass(scene, camera);
+                
+            }
+
+            function skybox(scene){
+                let loader = new THREE.CubeTextureLoader();
+                let texture = loader.load([
+                    './images/skybox1/right.png',//right.
+                    './images/skybox1/left.png', //left
+                    './images/skybox1/top.png', //top.
+                    './images/skybox1/bottom.png', //bottom
+                    './images/skybox1/front.png', //front.
+                    './images/skybox1/back.png'  //back
+               ])
+               scene.background=texture; 
+            }
+            
+            ///////////////////////
+            // Planets
+            ////////////////////////
+
+            ////////////////////////
+            // Sun
+            ////////////////////////
+            let sunObj, sunGeo, sunMat;
+            function addSun(){
+               sunGeo = new THREE.SphereGeometry(40,40,40);
+               let sunMap = new THREE.TextureLoader().load('./images/sun/sunmap.jpg');
+               sunMat = new THREE.MeshPhongMaterial({
+                  map: sunMap,
+                  wireframe:false
+               })
+               sunObj = new THREE.Mesh(sunGeo, sunMat);
+               universe.add(sunObj);
+            }
+
+            ////////////////////////
+            // Mercury
+            ////////////////////////
+            let mercury, mercuryGeo, MercuryMat;
+            function addMercury(){
+                mercuryGeo = new THREE.SphereGeometry(7,50,50);
+                let mercuryMap = new THREE.TextureLoader().load('./images/mercury/mercurymap.jpg');
+                let mercuryBump = new THREE.TextureLoader().load('./images/mercury/mercurybump.jpg');
+                MercuryMat = new THREE.MeshPhongMaterial({
+                    map:mercuryMap,
+                    bumpMap:mercuryBump,
+                    bumpScale: 0.5
+                })
+                mercury = new THREE.Mesh(mercuryGeo,MercuryMat);
+                universe.add(mercury);
+            }
+            ////////////////////////
+            // Mercury-orbit
+            ////////////////////////
+            let mercuryOrbit = [];
+            addOrbit(universe,500,80,10,mercuryOrbit);
+            
+
+            ////////////////////////
+            // Venus
+            ////////////////////////            
+            let venus, venusGeo, venusMat;
+            function addVenus(){
+                venusGeo = new THREE.SphereGeometry(15,50,50);
+                let venusMap = new THREE.TextureLoader().load('./images/venus/venusmap.jpg');
+                let venusBump = new THREE.TextureLoader().load('./images/venus/venusbump.jpg');
+                venusMat = new THREE.MeshPhongMaterial({
+                    map:venusMap,
+                    bumpMap:venusBump,
+                    bumpScale: 0.5
+                })
+                venus = new THREE.Mesh(venusGeo,venusMat);
+                universe.add(venus);
+            }
+            ////////////////////////
+            // Venus-orbit
+            ////////////////////////
+            let venusOrbit = [];
+            addOrbit(universe,500,150,10,venusOrbit);
+
+            ////////////////////////
+            // Earth
+            ////////////////////////
+            let earth, earthGeo, earthMat;
+            function addEarth(){
+               earthGeo = new THREE.SphereGeometry(20,50,50);
+               //surface pic
+                let earthMap = new THREE.TextureLoader().load('./images/earth/earthmap.jpg');
+                let earthBump =  new THREE.TextureLoader().load('./images/earth/earthbump.jpg');
+                let earthSpec =  new THREE.TextureLoader().load('./images/earth/earthspec.jpg');
+                let earthLight =  new THREE.TextureLoader().load('./images/earth/earthlights.jpg');
+               earthMat = new THREE.MeshPhongMaterial({
+                    map: earthMap,
+                    bumpMap: earthBump,
+                    bumpScale: 0.5,
+                    specularMap: earthSpec,
+                    lightMap: earthLight
+               })
+               earth = new THREE.Mesh(earthGeo, earthMat);
+               earth.position.x=200;
+               earth.rotation.z=Math.PI/7.7;
+               //cloud pic
+                let cloudMap = new THREE.TextureLoader().load('./images/earth/earthcloudmap.jpg');
+                let cloudGeo = new THREE.SphereGeometry(20,50,50);
+                let cloudMat  = new THREE.MeshPhongMaterial({
+                     opacity: 0.3,
+                     map : cloudMap,
+                     transparent : true,
+                })
+                let cloudMesh = new THREE.Mesh(cloudGeo, cloudMat);
+                earth.add(cloudMesh);
+                universe.add(earth);
+            }
+
+            ////////////////////////
+            //  Earth-orbit
+            ////////////////////////
+             let earthOrbit = [];
+             addOrbit(universe,2000,230,20,earthOrbit);
+
+    
+            ////////////////////////
+            // Moon
+            ////////////////////////
+            let moon, moonGeo, moonMat;
+            function addMoon(){
+               moonGeo = new THREE.SphereGeometry(10,50,50);
+               let moonMap = new THREE.TextureLoader().load('./images/moon/moonmap.jpg');
+               let moonBump =  new THREE.TextureLoader().load('./images/moon/moonbump.jpg');
+               moonMat = new THREE.MeshPhongMaterial({
+                    map: moonMap,
+                    bumpMap: moonBump
+               })
+               moon = new THREE.Mesh(moonGeo, moonMat);
+               moon.position.x=250;
+               moon.position.y=-15;
+               earth.add(moon);
+            }
+
+            ////////////////////////
+            // Moon-orbit
+            ////////////////////////
+            let moonOrbit = [];
+            let moonRings = new THREE.Object3D();
+            addOrbit(universe,500,50,12,moonOrbit,moonRings);
+
+            ////////////////////////
+            // Mars
+            ////////////////////////            
+            let mars, marsGeo, marsMat;
+            function addMars(){
+                marsGeo = new THREE.SphereGeometry(10,50,50);
+                let marsMap = new THREE.TextureLoader().load('./images/mars/marsmap1k.jpg');
+                let marsBump = new THREE.TextureLoader().load('./images/mars/marsbump1k.jpg');
+                marsMat = new THREE.MeshPhongMaterial({
+                    map:marsMap,
+                    bumpMap:marsBump,
+                    bumpScale: 0.5
+                })
+                mars = new THREE.Mesh(marsGeo,marsMat);
+                mars.position.x=300;
+                mars.rotation.z=Math.PI/7.2;
+                universe.add(mars);
+            }
+            ////////////////////////
+            //  Mars-orbit
+            ////////////////////////
+            let marsOrbit = [];
+            addOrbit(universe,2000,330,10,marsOrbit);
+
+
+            ////////////////////////
+            // Jupiter
+            ////////////////////////            
+            let jupiter, jupiterGeo, jupiterMat;
+            function addJupiter(){
+                jupiterGeo = new THREE.SphereGeometry(30,50,50);
+                let jupiterMap = new THREE.TextureLoader().load('./images/jupiter/jupiter2_6k.jp2');
+                jupiterMat = new THREE.MeshPhongMaterial({
+                    map:jupiterMap,
+                })
+                jupiter = new THREE.Mesh(jupiterGeo,jupiterMat);
+                jupiter.position.x=450;
+                universe.add(jupiter);
+            }
+            ////////////////////////
+            //  Jupiter-orbit
+            ////////////////////////
+            let jupiterOrbit = [];
+            addOrbit(universe,3000,410,20,jupiterOrbit);
+
+            ////////////////////////
+            // Saturn
+            ////////////////////////            
+            let saturn, saturnGeo, saturnMat;
+            function addSaturn(){
+                saturnGeo = new THREE.SphereGeometry(27,50,50);
+                let saturnMap = new THREE.TextureLoader().load('./images/saturn/saturnmap.jpg');
+                saturnMat = new THREE.MeshPhongMaterial({
+                    map:saturnMap,
+                })
+                saturn = new THREE.Mesh(saturnGeo,saturnMat);
+                saturn.position.x=550;
+                saturn.rotation.z=Math.PI/6.9;
+                universe.add(saturn);
+            }
+            // Saturn-disk
+            let sDisk, sDiskGeo, sDiskColor;
+            function addSaturnDisk(){
+                sDiskGeo = new THREE.RingGeometry(30,45,50)
+                let sDiskColor = new THREE.TextureLoader().load('./images/saturn/saturnringcolor.jpg');
+                let sDiskColor2 = new THREE.TextureLoader().load('./images/saturn/saturnringpattern.gif');
+                sDiskMat = new THREE.MeshPhongMaterial({
+                    map: sDiskColor,
+                    displacementMap: sDiskColor2,
+                    side: THREE.DoubleSide
+                })
+                sDisk = new THREE.Mesh(sDiskGeo,sDiskMat);
+                // sDisk.position.x=30;
+                sDisk.rotation.x=Math.PI/2;
+                saturn.add(sDisk);
+            }
+            // let sDisk2, sDiskGeo2, sDiskColor2;
+            // function addSaturnDisk2(){
+            //     sDiskGeo2 = new THREE.RingGeometry(35,40,50)
+            //     let sDiskColor2 = new THREE.TextureLoader().load('./images/saturn/saturnringpattern.gif');
+            //     sDiskMat2 = new THREE.MeshBasicMaterial({
+            //         map: sDiskColor2,
+            //         side: THREE.DoubleSide
+            //     })
+            //     sDisk2 = new THREE.Mesh(sDiskGeo2,sDiskMat2);
+            //     // sDisk.position.x=30;
+            //     sDisk2.rotation.x=Math.PI/2;
+            //     saturn.add(sDisk2);
+            // }
+            ////////////////////////
+            //  Saturn-orbit
+            ////////////////////////
+            let saturnOrbit = [];
+            addOrbit(universe,3000,480,20,saturnOrbit);
+
+            ////////////////////////
+            // Uranus
+            ////////////////////////            
+            let uranus, uranusGeo, uranusMat;
+            function addUranus(){
+                uranusGeo = new THREE.SphereGeometry(23,50,50);
+                let uranusMap = new THREE.TextureLoader().load('./images/uranus/uranusmap.jpg');
+                uranusMat = new THREE.MeshPhongMaterial({
+                    map:uranusMap,
+                })
+                uranus = new THREE.Mesh(uranusGeo,uranusMat);
+                uranus.position.x=650;
+                uranus.rotation.z=Math.PI/1.8;
+                universe.add(uranus);
+            }
+            // uranus-disk
+            let uDisk, uDiskGeo, uDiskColor;
+            function addUranusDisk(){
+                uDiskGeo = new THREE.RingGeometry(40,45,50)
+                let uDiskColor = new THREE.TextureLoader().load('./images/uranus/uranusringcolour.jpg');
+                let uDiskColor2 = new THREE.TextureLoader().load('./images/uranus/uranusringtrans.gif');
+                uDiskMat = new THREE.MeshPhongMaterial({
+                    map: uDiskColor,
+                    displacementMap: uDiskColor2,
+                    side: THREE.DoubleSide
+                })
+                uDisk = new THREE.Mesh(uDiskGeo,uDiskMat);
+                uDisk.rotation.x=Math.PI/2;
+                uranus.add(uDisk);
+            }
+            // let uDisk2, uDiskGeo2, uDiskColor2;
+            // function addUranusDisk2(){
+            //     uDiskGeo2 = new THREE.RingGeometry(35,40,50)
+            //     let uDiskColor2 = new THREE.TextureLoader().load('./images/uranus/uranusringtrans.gif');
+            //     uDiskMat2 = new THREE.MeshBasicMaterial({
+            //         map: uDiskColor2,
+            //         side: THREE.DoubleSide
+            //     })
+            //     uDisk2 = new THREE.Mesh(uDiskGeo2,uDiskMat2);
+            //     uDisk2.rotation.x=Math.PI/2;
+            //     // sDisk.position.x=30;
+            //     uranus.add(uDisk2);
+            // }
+            ////////////////////////
+            //  Uranus-orbit
+            ////////////////////////
+            let uranusOrbit = [];
+            addOrbit(universe,3000,540,20,uranusOrbit);
+
+            ////////////////////////
+            // Neptune
+            ////////////////////////            
+            let neptune, neptuneGeo, neptuneMat;
+            function addNeptune(){
+                neptuneGeo = new THREE.SphereGeometry(20,50,50);
+                let neptuneMap = new THREE.TextureLoader().load('./images/neptune/neptunemap.jpg');
+                neptuneMat = new THREE.MeshPhongMaterial({
+                    map:neptuneMap,
+                })
+                neptune = new THREE.Mesh(neptuneGeo,neptuneMat);
+                neptune.position.x=750;
+                neptune.rotation.z=Math.PI/6;
+                universe.add(neptune);
+            }
+            ////////////////////////
+            //  Neptune-orbit
+            ////////////////////////
+            let neptuneOrbit = [];
+            addOrbit(universe,3000,600,20,neptuneOrbit);
+
+
+            ////////////////////////
+            // Pluto
+            ////////////////////////            
+            let pluto, plutoGeo, plutoMat;
+            function addPluto(){
+                plutoGeo = new THREE.SphereGeometry(22,50,50);
+                let plutoMap = new THREE.TextureLoader().load('./images/pluto/plutomap2k.jpg');
+                let plutoBump = new THREE.TextureLoader().load('./images/pluto/plutobump2k.jpg');
+                plutoMat = new THREE.MeshPhongMaterial({
+                    map:plutoMap,  
+                    bumpMap:plutoBump,
+                    bumpScale: 0.5
+                })
+                pluto = new THREE.Mesh(plutoGeo,plutoMat);
+                pluto.position.x=850;
+                pluto.rotation.z=Math.PI/1.5;
+                universe.add(pluto);
+            }
+            ////////////////////////
+            // Pluto-orbit
+            ////////////////////////
+            let plutoOrbit = [];
+            addOrbit(universe,3000,650,20,plutoOrbit);
+
+
+
+        ////////////////////////
+        // Galaxy
+        ////////////////////////
+         let star, starGeo, starMat;
+         let stars = [];
+         function addStars(){
+            for(let i=-5000; i<5000; i+=20){
+                starGeo = new THREE.SphereGeometry(0.6, 32, 32);
+                starMat = new THREE.MeshBasicMaterial({
+                    color: 0xffffff,
+                });
+             star = new THREE.Mesh(starGeo,starMat); 
+             star.position.x=Math.random()*2000-1000;
+             star.position.y=Math.random()*2000-1000;
+             star.position.z=i;
+             star.scale.x=star.scale.y=2;
+          //  scene.add(star);
+             scene.add(star);
+             stars.push(star);
+            }
+        }
+
+        function animateStars(){
+            for(let i=0; i<stars.length; i++){
+                let single = stars[i];
+                single.position.z += i/10;
+                if(single.position.z>1000){
+                single.position.z-=2000;
+                }
+            }
+        }
+
+ 
+            function animate(){
+                requestAnimationFrame(animate);
+                //rotation
+                sunObj.rotation.y += 0.001;
+                mercury.rotation.y += 0.018;
+                venus.rotation.y -= 0.0015;
+                earth.rotation.y += 0.022;
+                moon.rotation.y += 0.01;
+                mars.rotation.y +=0.002;
+                jupiter.rotation.y += 0.020;
+                saturn.rotation.y += 0.021;
+                uranus.rotation.y +=0.023;
+                neptune.rotation.y += 0.024;
+                pluto.rotation.y += 0.0015;
+                //revolution
+                earthRevolution();
+                mercuryRevolution();
+                venusRevolution();
+                marsRevolution();
+                jupiterRevolution();
+                saturnRevolution();
+                uranusRevolution();
+                neptuneRevolution();
+                plutoRevolution();
+                //animation
+                animateStars();
+                animateOrbit(mercuryOrbit,0.001);
+                animateOrbit(venusOrbit,0.002);
+                animateOrbit(earthOrbit,0.0025);
+                animateOrbit(moonOrbit,0.003);
+                animateOrbit(marsOrbit,0.0015);
+                animateOrbit(jupiterOrbit,0.0035);
+                animateOrbit(saturnOrbit,0.002);
+                animateOrbit(uranusOrbit,0.0022);
+                animateOrbit(neptuneOrbit,0.003);
+                animateOrbit(plutoOrbit,0.0033)
+                pick();
+                
+                // renderer.clear();
+                
+               
+                // bloomComposer.render();
+                // camera.layers.set(1);
+                camera.layers.set(0);
+                scene.add(universe);
+                renderer.render(scene,camera);
+                
+                
+
+            }
+
+            init();
+            skybox(scene); 
+            addSun();
+            addMercury();
+            addVenus();
+            addEarth();
+            addMoon();
+            addMars();
+            addJupiter();
+            addSaturn();
+            addSaturnDisk();
+            // addSaturnDisk2();
+            addUranus();
+            addUranusDisk();
+            // addUranusDisk2();
+            addNeptune();
+            addPluto();
+            ///////
+            addStars();
+            clickSun();
+            clickMercury();
+            clickVenus();
+            clickEarth();
+            clickMars();
+            clickJupiter();
+            clickSaturn();
+            clickUranus();
+            clickNeptune();
+            clickPluto();
+
+            animate();
+        </script>
+    </body>
+</html>
+        

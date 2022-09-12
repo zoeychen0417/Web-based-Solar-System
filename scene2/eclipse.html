@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">	
+
+<title></title>
+
+<style>
+
+	canvas { width: 100%; height: 100%;}
+
+	body{ 
+		border: none; 
+		overflow: hidden; 
+		margin: 0px; 
+		background-size: cover;
+		background-color: #000000;
+	}	
+	#frame{
+        width: 200px;
+        height: 300px;
+		padding-left: 30px;
+   	 	padding-top: 30px;
+   		padding-right: 70px;
+    	padding-bottom: 40px;
+        position: absolute;
+        top: 230px;
+        left: 2%;
+        background: url("textures/liu1.png");
+        background-size: 100% 100%;
+        font-size: 14px;
+        color: #FFFFFF;
+        display: none;
+		font-family: Arial, Helvetica, sans-serif;
+		text-align:left;
+        word-wrap:break-word
+		
+    }	
+    #close{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        color: #3bdbf5;
+        cursor: pointer;
+    }  
+    #map{
+        width: 300px;
+        height: 200px;
+        margin-left: -30px;
+    	margin-top: 20px;
+   	
+    }	
+	.nav{
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 3%;
+	left: 83%;
+	gap: 10px;
+	}
+	.nav button{
+	width: 180px;
+	height: 60px;
+	background: transparent;
+	border: none;
+	color: white;
+	background-image: url(textures/button_03.png);
+	background-size: 100% 100%; 
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	line-height: 10px;
+	letter-spacing:2px; 
+	opacity: 0.9; 
+	transition: transform 0.5s;
+	cursor:pointer;
+	}
+	.nav button:hover{
+        transform: scale(0.8);
+    }
+	#one:hover{
+		transform: scale(0.8);
+	}
+
+.container{
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle farthest-corner at center, #3C4B57 0%, #1C262B 100%);
+  z-index: 1;
+}
+.loader {
+  position: absolute;
+  top: calc(50% - 32px);
+  left: calc(50% - 32px);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  perspective: 800px;
+}
+
+.inner {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;  
+}
+
+.inner.one {
+  left: 0%;
+  top: 0%;
+  animation: rotate-one 1s linear infinite;
+  border-bottom: 3px solid #EFEFFA;
+}
+
+.inner.two {
+  right: 0%;
+  top: 0%;
+  animation: rotate-two 1s linear infinite;
+  border-right: 3px solid #EFEFFA;
+}
+
+.inner.three {
+  right: 0%;
+  bottom: 0%;
+  animation: rotate-three 1s linear infinite;
+  border-top: 3px solid #EFEFFA;
+}
+
+@keyframes rotate-one {
+  0% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-two {
+  0% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-three {
+  0% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
+}
+
+	
+</style>
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="loader">
+			<div class="inner one"></div>
+			<div class="inner two"></div>
+			<div class="inner three"></div>
+		</div>
+	</div>
+
+
+<div id="frame">
+    <div id="close" onclick="call()">close</div>
+    <div id="der"></div>
+    <div id="map" style="background-image: url(textures/1.jpg);background-size: 100% 100%;"></div>
+</div>
+
+
+<div style="position: absolute;width: 100px;z-index: 999;">
+	
+	<a href="javascript:call1();"><div id="one" style="transition: transform 0.5s; position: absolute; width:200px; height:60px;top:20px;left: 30px; background-image: url(textures/button_03.png);background-size: 100% 100%; font-family: arial;font-size: 16px; text-align: center;color: #ffffff; line-height: 60px;letter-spacing:5px;display: block;">initial</div></a>
+	
+	<a href="javascript:call2();"><div id="one" style="transition: transform 0.5s; position: absolute; width:200px; height:60px;top:90px;left: 30px; background-image: url(textures/button_03.png);background-size: 100% 100%;  font-family: arial;font-size: 16px; text-align: center;color: #ffffff; line-height: 60px;letter-spacing:5px;display: block;">solar eclipse</div></a>
+
+	<a href="javascript:call22();"><div id="one" style="transition: transform 0.5s; position: absolute; width:200px; height:60px;top:160px;left: 30px; background-image: url(textures/button_03.png);background-size: 100% 100%;  font-family: arial;font-size: 16px; text-align: center;color: #ffffff; line-height: 60px;letter-spacing:5px;display: block;">lunar eclipse</div></a>
+
+</div>
+
+    <div class="nav">
+       <button onclick="callme(0)">Scene 1</button>
+       <button onclick="callme(1)">Scene 2</button>
+       <button onclick="callme(2)">Scene 3</button>
+    </div>
+
+
+<script src="js/three.min.js"></script>
+<script src="js/OrbitControls.js"></script>
+<script src="js/RGBELoader.js"></script>
+<script src="js/GLTFLoader.js"></script>
+<script src="js/tween.min.js"></script>
+<script>
+
+let preloader=document.querySelector(".container");
+            let navigation=document.querySelector(".nav");
+            window.addEventListener("load",function(){
+                preloader.style.display='none';
+                navigation.style.visibility='visible';
+            })
+           
+	function call(){
+		document.getElementById("frame").style.display = 'none';
+	}
+
+	function callme(num){
+		if(num == 0){
+			window.location.href="../scene1/main.html";
+		}else if(num == 1){
+			window.location.href="../scene2/eclipse.html";
+		}else if(num == 2){
+			window.location.href="../scene3/earth.html";
+		}
+	}
+var swtrue = true;
+
+function call1(){
+	swtrue = true;
+	new TWEEN.Tween(camera.position).to({x:0,y:110,z:250}, 1200).start();
+	new TWEEN.Tween(controls1.target).to({x:0,y:0,z:0}, 1200).start();
+	document.getElementById("frame").style.display = 'none';
+	
+}
+
+function call2(){
+	var xxx = Math.ceil(basic3.rotation.y/Math.PI);
+	if( xxx%2 === 0 ){
+		xxx = xxx + 1;
+	}
+	swtrue = false;
+	new TWEEN.Tween(basic3.rotation).to({y:Math.PI * xxx}, 1800).start();
+	document.getElementById("map").style.backgroundImage = "url(textures/1.jpg)"
+	document.getElementById("frame").style.display = 'block';
+	document.getElementById("der").innerHTML = '<div class="user-head">A solar eclipse occurs when a portion of the Earth is engulfed in a shadow cast by the Moon which fully or partially blocks sunlight. This occurs when the Sun, Moon and Earth are aligned. Such alignment coincides with a new moon (syzygy) indicating the Moon is closest to the ecliptic plane In a total eclipse, the disk of the Sun is fully obscured by the Moon. In partial and annular eclipses, only part of the Sun is obscured.</div>';
+}
+
+function call22(){
+	var xxx = Math.ceil(basic3.rotation.y/Math.PI);
+	if( xxx%2 === 0 ){
+		
+	}else{
+		xxx = xxx - 1;
+	}
+	swtrue = false;
+	new TWEEN.Tween(basic3.rotation).to({y:Math.PI * xxx }, 1800).start();
+	document.getElementById("map").style.backgroundImage = "url(textures/2.jpg)"
+	document.getElementById("frame").style.display = 'block';
+	document.getElementById("der").innerHTML = '<div class="user-head">A lunar eclipse occurs when the Moon moves into the Earth shadow This can occur only when the Sun, Earth, and Moon are exactly or very closely aligned (in syzygy) with Earth between the other two, and only on the night of a full moon. The type and length of a lunar eclipse depend on the Moon proximity to either node of its orbit.</div>';
+}
+
+
+var	container = document.createElement( 'div' );
+	document.body.appendChild( container );
+	
+var	camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 100000 );
+	camera.position.set(0,110,250);		
+	
+var	scene = new THREE.Scene();
+
+var	renderer = new THREE.WebGLRenderer( { antialias: true, alpha:true } );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	container.appendChild( renderer.domElement );
+
+var hemiLight;
+	hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 1); 
+	hemiLight.position.set(0, 500, 0); 
+	scene.add(hemiLight); 
+		
+var pointLight = new THREE.PointLight(0xFFFFFF, 0.1);	
+    scene.add(pointLight);
+
+
+var	textureCube = new THREE.RGBELoader().setDataType( THREE.UnsignedByteType );
+    textureCube.load( 'textures/015.hdr', function ( texture ) {	
+		var pmremGenerator = new THREE.PMREMGenerator( renderer );
+			pmremGenerator.compileEquirectangularShader();
+		var cubeRenderTarget = pmremGenerator.fromEquirectangular( texture );
+		textureCube = cubeRenderTarget.texture;
+		texture.dispose();			
+	});		
+
+var controls1;
+    controls1 = new THREE.OrbitControls( camera );
+    controls1.rotateSpeed = 0.05;
+	controls1.enableDamping = true;
+	controls1.dampingFactor = 0.1;
+	controls1.panSpeed = 0.05;
+
+window.addEventListener( 'resize', onWindowResize, false );
+function onWindowResize( event ) {
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+}
+
+var basic = new THREE.Mesh(new THREE.PlaneBufferGeometry(0.000001, 0.000001), new THREE.MeshBasicMaterial({color: 0xffffff}));
+	basic.position.set(0,0,0);        
+    scene.add(basic);
+
+
+function skybox(scene){
+                let loader = new THREE.CubeTextureLoader();
+                let texture = loader.load([
+                    'skybox1/right.png',//right.
+                    'skybox1/left.png', //left
+                    'skybox1/top.png', //top.
+                    'skybox1/bottom.png', //bottom
+                    'skybox1/front.png', //front.
+                    'skybox1/back.png'  //back
+               ])
+               scene.background=texture; 
+            }
+
+
+var texture3 = new THREE.TextureLoader().load('textures/circular_03.png');
+var material3 = new THREE.MeshPhongMaterial( { map: texture3 ,transparent:true,side: THREE.DoubleSide,blending: THREE.AdditiveBlending,depthWrite:false,depthTest:false,} );          
+var plane3 = new THREE.Mesh( new THREE.PlaneGeometry( 3,3 ), material3 );         
+    plane3.scale.set( 37, 37, 10 );                           
+    plane3.position.set(105,0,0);                           
+    plane3.rotation.set(-Math.PI/2,0,0);                      
+    basic.add( plane3 );                                     
+
+var texture3 = new THREE.TextureLoader().load('textures/guang2.jpg');
+var material3 = new THREE.MeshPhongMaterial( { map: texture3 ,transparent:true,side: THREE.DoubleSide,blending: THREE.AdditiveBlending,} );          
+var plane2 = new THREE.Mesh( new THREE.PlaneGeometry( 3,3 ), material3 );         
+    plane2.scale.set( 100, 100, 10 );                           
+    plane2.position.set(0,0,0);                           
+    plane2.rotation.set(-Math.PI/2,0,0);                      
+    scene.add( plane2 );                                     
+
+
+var geometry = new THREE.SphereGeometry(33, 60, 30);
+var	material = new THREE.MeshPhongMaterial({
+	    color: 0xffffff
+	});
+	material.specularMap = new THREE.TextureLoader().load("textures/earth_specular_2048.jpg");
+	material.map = new THREE.TextureLoader().load("textures/earth_atmos_2048.jpg");
+	material.normalMap = new THREE.TextureLoader().load("textures/earth_normal_2048.jpg");
+	material.bumpMap = new THREE.TextureLoader().load("textures/earthbump1k.jpg");
+	material.bumpScale = 5;
+	material.needsUpdate = true;
+var	earth = new THREE.Mesh(geometry, material);
+	earth.position.set(105,0,0);  
+	earth.scale.set(0.65,0.65,0.65)
+	basic.add(earth);
+
+
+var basic3 = new THREE.Mesh(new THREE.PlaneBufferGeometry(0.000001, 0.000001), new THREE.MeshBasicMaterial({color: 0xffffff}));
+	basic3.position.set(105,0,0);        
+    basic.add(basic3);
+	
+var geometry1 = new THREE.SphereGeometry(30, 60, 30);
+var	material1 = new THREE.MeshPhongMaterial({
+	    color: 0xffffff
+	});
+	material1.map = new THREE.TextureLoader().load("textures/moonmap1k.jpg");
+	material1.bumpMap = new THREE.TextureLoader().load("textures/moonbump1k.jpg");
+	material1.needsUpdate = true;
+var	moon = new THREE.Mesh(geometry1, material1);
+	moon.position.set(35,0,0)
+	moon.scale.set(0.3,0.3,0.3)
+	basic3.add(moon);
+
+
+var geometry2 = new THREE.SphereGeometry(30, 60, 30);
+var	material2 = new THREE.MeshPhongMaterial({
+	    color: 0xffffff
+	});
+	material2.map = new THREE.TextureLoader().load("textures/sunmap.jpg");
+	material2.needsUpdate = true;
+var	sun = new THREE.Mesh(geometry2, material2);
+	sun.scale.set(1.55,1.55,1.55)
+	scene.add(sun);
+
+var spriteMaterial00 = new THREE.SpriteMaterial({
+		map: new THREE.TextureLoader().load("textures/ty.png"),
+		depthWrite:false,
+		depthTest:false,
+		transparent: true,
+		blending: THREE.AdditiveBlending,
+		opacity:2,
+		color:0xf0ff00,
+});
+var spritel00 = new THREE.Sprite(spriteMaterial00);
+    spritel00.scale.set( 126,126,126 );                                
+    spritel00.position.set(0,0,0);        
+    scene.add( spritel00 );      
+
+        ////////////////////////
+        // Galaxy
+        ////////////////////////
+		let star, starGeo, starMat;
+         let stars = [];
+         function addStars(){
+            for(let i=-5000; i<5000; i+=50){
+                starGeo = new THREE.SphereGeometry(0.6, 32, 32);
+                starMat = new THREE.MeshBasicMaterial({
+                    color: 0xffffff,
+                });
+             star = new THREE.Mesh(starGeo,starMat); 
+             star.position.x=Math.random()*2000-1000;
+             star.position.y=Math.random()*2000-1000;
+             star.position.z=i;
+             star.scale.x=star.scale.y=2;
+          //  scene.add(star);
+             scene.add(star);
+             stars.push(star);
+            }
+        }
+
+        function animateStars(){
+            for(let i=0; i<stars.length; i++){
+                let single = stars[i];
+                single.position.z += i/10;
+                if(single.position.z>1000){
+                single.position.z-=2000;
+                }
+            }
+        }
+
+var time1= 0;
+function render() {
+	requestAnimationFrame( render );
+    pointLight.position.copy ( camera.position );  
+    pointLight.scale.copy ( camera.scale ); 	
+    TWEEN.update();
+  
+  	if( swtrue == true ){
+		earth.rotation.y += 0.002;
+		plane2.rotation.z += 0.005;
+		basic.rotation.y += 0.002;
+		basic3.rotation.y += 0.005;
+  	}
+	
+	controls1.update();          
+	renderer.clear();	
+	animateStars();
+    renderer.render( scene, camera );
+}
+
+
+	addStars();
+	render();  
+	skybox(scene);
+
+
+</script>
+
+</body>
+</html>
